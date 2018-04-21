@@ -1,5 +1,6 @@
 #include "TheThingsNetwork.h"
 #include "CayenneLPP.h"
+float CoOrds[2];
 
 // Board Definitions
 #define bleSerial Serial1
@@ -25,7 +26,7 @@ const char *appSKey = "";
 const bool CNF   = true;
 const bool UNCNF = false;
 const byte MyPort = 3;
-byte Payload[51];
+byte Payload[2];
 byte CNT = 0;                                               // Counter for the main loop, to track packets while prototyping
 #define freqPlan TTN_FP_EU868                               // Replace with TTN_FP_EU868 or TTN_FP_US915
 #define FSB 0                                               // FSB 0 = enable all channels, 1-8 for private networks
@@ -37,6 +38,8 @@ CayenneLPP        CayenneRecord (51);                                       // C
 
 void setup()
 { 
+  CoOrds[0] = 51.5074;
+  CoOrds[1] = 0.1278;
   pinMode(BUTTON, INPUT_PULLUP);
   BUTTON_STATE = !digitalRead(BUTTON);
   pinMode(LED_BUILTIN, OUTPUT);
@@ -96,20 +99,20 @@ void setup()
 
 void loop()
 {
+  delay(15000);
+  float ranNum = random(-0.001, 0.001);
+  CoOrds[0] += ranNum;
+  ranNum = random(-0.001, 0.001);
+  CoOrds[1] += ranNum;
+  Payload[0] = round(CoOrds[0] * 100);
+  Payload[1] = round(CoOrds[1] * 100);
+
+
+
+  
   CNT++;
   debugSerial.println(CNT, DEC);
   // ExpLoRer.showStatus();                           // Un-comment during LoRa debugging to see status in Serial Monitor
-
-  // Prepare payload of 1 byte to indicate LED status
-  // payload[0] = (digitalRead(LED_BUILTIN) == HIGH) ? 1 : 0;
-
-  // Read sensors here for regular transmissions, or triggered by pressing the button
-  float MyTemp = getTemperature();                    // Onboard temperature sensor
-  CayenneRecord.addTemperature(3, MyTemp);
-
-  float MySound = getSound();                         // Grove sound sensor on pin A8
-  CayenneRecord.addAnalogInput(4, MySound);
-  
   // When all measurements are done and the complete Cayenne record created, send it off via LoRa
   LED(BLUE);                                          // LED on while transmitting. Green for energy-efficient LoRa
   byte PayloadSize = CayenneRecord.copy(Payload);
