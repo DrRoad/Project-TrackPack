@@ -1,6 +1,5 @@
 # Project TrackPack
-# Created for the 'Hack IoT - Reading UK Smart City Hackathon'
-# By Ben Emmons, Ilyas Sung, and Devlin Doyle
+# Created for the 'Hack IoT - Reading UK Smart City Hackathon' by Ben Emmons, Ilyas Sung, and Devlin Doyle
 
 ![Slide 1](https://raw.githubusercontent.com/piraterising/Project-TrackPack/master/Presentation_(Image_Version)/Slide_1.png)
 ![Slide 2](https://raw.githubusercontent.com/piraterising/Project-TrackPack/master/Presentation_(Image_Version)/Slide_2.png)
